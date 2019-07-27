@@ -1,0 +1,14 @@
+{
+    "name": "qiaonan/rsa",
+    "description": "前后端rsa",
+    "type": "library",
+    "authors": [
+        {
+            "name": "qiaonan",
+            "email": "1591941835@qq.com"
+        }
+    ],
+    "require": {
+	    "php": ">=5.0"   
+	}
+}

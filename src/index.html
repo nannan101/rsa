@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="./jquery.min.js"></script>
+        <script type="text/javascript" src="./jsencrypt.min.js"></script>
+    </head>
+    <body>
+
+
+        <button onclick="submit()">提交<button>
+
+                <script>
+                    function submit() {
+                        var encrypt = new JSEncrypt();
+                        encrypt.setPublicKey("MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHIjcOvYCkYGF7HWfo4LsMdfAXGIv8TFJ0Fy1cwa4Fg2yYkinESg3P8Os1FPWo6xqZonsay+SK0xlg8cwgSlP0fHKQV3pPLrwUBBp4jh1AZokwX2lcRu3SCJm3k8lfEj5+092DZO4rrkPsKKLzc8hd/iFk4sqk3GeczcQqx5RJb7AgMBAAE=");
+                        var sendData = new Object();
+                        //Message too long for RSA  可能会出现数据过长
+                        sendData['name'] = encrypt.encrypt('张三');
+                        sendData['age'] = encrypt.encrypt('30');
+                        $.ajax({
+                            type: "post",
+                            url: "submit.php",
+                            data: sendData,
+                            success: function (data) {
+                                $("#myDiv").html('<h2>' + data + '</h2>');
+                            }
+                        });
+                    }
+                </script>
+                </body>
+                </html>
