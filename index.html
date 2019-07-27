@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./Assets/JS/jquery.min.js"></script>
+    <script type="text/javascript" src="./Assets/Js/jsencrypt.min.js"></script>
+</head>
+
+<body>
+    <center>
+        <fieldset style="width: 50%">
+            <legend> rsa加解密 </legend>
+            <label>用户名：<input type="text" id="name" size="100%" required value="猥琐南"></label>
+            <br><br>
+            <label>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="text" id="age" size="100%" required value="26"></label>
+            <br><br>
+            <button type="button" onclick="submit(this)">提交</button>
+            <button type="button" onclick="location.reload()">重置</button>
+        </fieldset>
+        <div id="myDiv"></div>
+    </center>
+
+    <script>
+        function submit($this) {
+            $($this).hide();
+            let encrypt = new JSEncrypt();
+            encrypt.setPublicKey("MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHIjcOvYCkYGF7HWfo4LsMdfAXGIv8TFJ0Fy1cwa4Fg2yYkinESg3P8Os1FPWo6xqZonsay+SK0xlg8cwgSlP0fHKQV3pPLrwUBBp4jh1AZokwX2lcRu3SCJm3k8lfEj5+092DZO4rrkPsKKLzc8hd/iFk4sqk3GeczcQqx5RJb7AgMBAAE=");
+            let sendData = new Object();
+            //Message too long for RSA  可能会出现数据过长
+            let name = $('#name').val();
+            let age = $('#age').val();
+            sendData['name'] = encrypt.encrypt(name);
+            sendData['age'] = encrypt.encrypt(age);
+            $('#name').val(sendData['name']);
+            $('#age').val(sendData['age']);
+            $.ajax({
+                type: "post",
+                url: "run.php",
+                data: sendData,
+                success: function(data) {
+                    data = JSON.parse(data);
+                    $("#myDiv").html('<h3>后台解析加密数据为：<br>name:' + data.name + '<br>age:' + data.age + '</h3>');
+                }
+            });
+            return false;
+        }
+    </script>
+</body>
+
+</html>
